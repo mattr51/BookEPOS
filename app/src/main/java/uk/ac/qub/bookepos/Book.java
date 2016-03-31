@@ -16,6 +16,11 @@ public class Book implements Serializable {
     private String openLibraryId;
     private String author;
     private String title;
+    private String isbn;
+
+    public String getIsbn() { return isbn; }
+
+
 
     public String getOpenLibraryId() {
         return openLibraryId;

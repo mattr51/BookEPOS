@@ -7,10 +7,16 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 /**
- * Created by YS15121055 on 15/02/2016.
+ * Created by Matt Ralphson
+ */
+
+/**
+ * BookClient contains methods to search openlibrary.org and return information on a book from a
+ * string embedded into a url search query
+ * Returns a json object
  */
 public class BookClient {
-    private static final String API_BASE_URL = "http://openlibrary.org/";
+    private static final String OPEN_LIB_URL = "http://openlibrary.org/";
 
     private AsyncHttpClient client;
     public BookClient() {
@@ -18,8 +24,8 @@ public class BookClient {
         this.client = new AsyncHttpClient();
     }
 
-    private String getApiUrl(String relativeUrl) {
-        return API_BASE_URL + relativeUrl;
+    private String getApiUrl(String appendToURL) {
+        return OPEN_LIB_URL + appendToURL;
     }
 
     // Method for accessing the search API
@@ -32,9 +38,20 @@ public class BookClient {
         }
     }
 
-    // Method for accessing books API to get publisher and no. of pages in a book.
+    // Method for accessing additional information based on openLibraryID
     public void getExtraBookDetails(String openLibraryId, JsonHttpResponseHandler handler) {
         String url = getApiUrl("books/");
         client.get(url + openLibraryId + ".json", handler);
     }
+
+    // Method for accessing additional information based on openLibraryID
+    public void getBookFromISBN(String isbn, JsonHttpResponseHandler handler) {
+        try {
+            String url = getApiUrl("books/&bibkeys=ISBN:");
+            client.get(url + URLEncoder.encode(isbn, "utf-8") + ".json", handler);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
