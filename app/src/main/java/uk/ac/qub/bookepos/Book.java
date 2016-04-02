@@ -58,6 +58,7 @@ public class Book implements Serializable {
             }
             book.title = jsonObject.has("title_suggest") ? jsonObject.getString("title_suggest") : "";
             book.author = getAuthor(jsonObject);
+            book.isbn = jsonObject.has("isbn") ? jsonObject.getString("isbn") : "";
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

@@ -44,14 +44,6 @@ public class BookClient {
         client.get(url + openLibraryId + ".json", handler);
     }
 
-    // Method for accessing additional information based on openLibraryID
-    public void getBookFromISBN(String isbn, JsonHttpResponseHandler handler) {
-        try {
-            String url = getApiUrl("books/&bibkeys=ISBN:");
-            client.get(url + URLEncoder.encode(isbn, "utf-8") + ".json", handler);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
+
 
 }

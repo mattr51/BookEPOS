@@ -138,11 +138,7 @@ public class BookListActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // Fetch the data remotely
-                try {
-                    Integer.parseInt(query);
-                    fetchByISBN(query);
-                }catch (NumberFormatException numForEx){
-                fetchBooks(query);}
+                fetchBooks(query);//}
                 // Reset SearchView
                 searchView.clearFocus();
                 searchView.setQuery("", false);
