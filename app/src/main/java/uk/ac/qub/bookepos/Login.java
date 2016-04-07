@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +15,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,8 +25,11 @@ import java.net.URL;
  */
 public class Login extends Activity {
         EditText name, password;
-        String Name, Password;
-        String NAME=null, PASSWORD=null;
+        String Name, Password, Mode;
+        String USER=null;
+        int ADMIN, REFUND = 0;
+
+        Context ctx = this;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,27 @@ public class Login extends Activity {
             BackGround b = new BackGround();
             b.execute(Name, Password);
         }
+    // Radio button check
+    public void onRadioButtonClicked(View radio) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) radio).isChecked();
+
+        // Check which radio button was clicked
+        switch(radio.getId()) {
+            case R.id.radioSales:
+                if (checked)
+                     Mode = "Sales";
+                    break;
+            case R.id.radioAdmin:
+                if (checked)
+                    Mode = "Admin";
+                    break;
+            case R.id.radioStock:
+                if (checked)
+                    Mode = "Stock";
+                    break;
+        }
+    }
 
         class BackGround extends AsyncTask<String, String, String> {
 
@@ -85,13 +111,26 @@ public class Login extends Activity {
                 try {
                     JSONObject root = new JSONObject(s);
                     JSONObject user_data = root.getJSONObject("user_data");
-                    NAME = user_data.getString("name");
-                    PASSWORD = user_data.getString("password");
+                    USER = user_data.getString("user");
+                    ADMIN = user_data.getInt("admin");
+                    REFUND = user_data.getInt("refund");
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    err = "Exception: "+e.getMessage();
+                    err = "Exception: " + e.getMessage();
 
-            }
+                }
+
+                Intent i = null;
+              try {
+                    i = new Intent(ctx, Class.forName(Mode));
+                     } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                i.putExtra("user", USER);
+                i.putExtra("admin", ADMIN);
+                i.putExtra("email", REFUND);
+                i.putExtra("err", err);
+                startActivity(i);
         }
     }
 }
