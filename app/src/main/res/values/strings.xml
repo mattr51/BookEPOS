@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">BookEPOS</string>
+    <string name="search">Search for a book…</string>
     <string name="action_settings">Settings</string>
 </resources>

@@ -120,7 +120,7 @@ public class Login extends Activity {
 
                 }
 
-                Intent i = null;
+               Intent i = null;
               try {
                     i = new Intent(ctx, Class.forName(Mode));
                      } catch (ClassNotFoundException e) {
@@ -130,6 +130,7 @@ public class Login extends Activity {
                 i.putExtra("admin", ADMIN);
                 i.putExtra("email", REFUND);
                 i.putExtra("err", err);
+                startActivity(i);
                 startActivity(i);
         }
     }

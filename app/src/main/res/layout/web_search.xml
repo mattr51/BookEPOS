@@ -4,12 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".BookListActivity">
+    tools:context=".BookListActivity"
+    android:weightSum="1">
 
     <ListView
         android:id="@+id/lvBooks"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_weight="1.56" />
 
     <ProgressBar
         android:id="@+id/progress"
@@ -19,5 +21,18 @@
         android:max="100"
         android:indeterminate="true"
         android:visibility="gone" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Manual Entry"
+            android:id="@+id/btManE" />
+    </LinearLayout>
 
 </LinearLayout>
