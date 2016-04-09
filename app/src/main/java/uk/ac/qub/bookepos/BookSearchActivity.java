@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Matt Ralphson
@@ -37,12 +38,20 @@ public class BookSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_book_search);
         lvBooks = (ListView) findViewById(R.id.lvBooks);
         ArrayList<Book> aBooks = new ArrayList<Book>();
-        Book testBook = new Book("Test title", "Test author", "1234", 10);
+        Book testBook = new Book("Test title", "Test author", 10);
         aBooks.add(testBook);
         bookAdapter = new BookAdapter(this, aBooks);
         lvBooks.setAdapter(bookAdapter);
         progress = (ProgressBar) findViewById(R.id.progress);
         setupBookSelectedListener();
+    }
+
+    private void DoSearch(String searchTerms) {
+        InventoryApiEndPoint inventoryApiEndPoint = new InventoryApiEndPoint();
+        HashMap<String, String> urlParams = new HashMap<>();
+        urlParams.put("searchTerms", searchTerms);
+        inventoryApiEndPoint.execute(urlParams);
+        bookAdapter = new BookAdapter(this, inventoryApiEndPoint.getBooks());
     }
 
     public void setupBookSelectedListener() {

@@ -24,16 +24,13 @@ public class Book implements Serializable {
     {
     }
 
-    public Book(String isbn, String title, String author, double price) {
-        this.isbn = isbn;
+    public Book(String title, String author, double price) {
         this.title = title;
         this.author = author;
         this.price = price;
     }
 
     public double getPrice() { return price; }
-
-    public String getIsbn() { return isbn; }
 
     public String getOpenLibraryId() {
         return openLibraryId;
