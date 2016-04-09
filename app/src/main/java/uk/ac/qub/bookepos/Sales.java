@@ -17,7 +17,4 @@ public class Sales extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sales);
     }
-
-
-
 }
