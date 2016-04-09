@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,16 +19,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
-import uk.ac.qub.bookepos.Book;
-import uk.ac.qub.bookepos.BookClient;
-import uk.ac.qub.bookepos.BookListActivity;
 
 public class BookDetailActivity extends AppCompatActivity {
     private ImageView ivBookCover;
     private TextView tvTitle;
     private TextView tvAuthor;
     private TextView tvPublisher;
-    private TextView tvPageCount;
+    private EditText etPrice;
+    private EditText etQuant;
+    private Button btUpdateStock;
+    private Button btAddToBasket;
     private BookClient client;
 
     @Override
@@ -38,9 +40,8 @@ public class BookDetailActivity extends AppCompatActivity {
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvAuthor = (TextView) findViewById(R.id.tvAuthor);
         tvPublisher = (TextView) findViewById(R.id.tvPublisher);
-        tvPageCount = (TextView) findViewById(R.id.tvPageCount);
         // Use the book to populate the data into our views
-        Book book = (Book) getIntent().getSerializableExtra(BookListActivity.BOOK_DETAIL_KEY);
+        Book book = (Book) getIntent().getSerializableExtra(BookSearchActivity.BOOK_DETAIL_KEY);
         loadBook(book);
     }
 
@@ -48,9 +49,11 @@ public class BookDetailActivity extends AppCompatActivity {
     private void loadBook(Book book) {
         //change activity title
         this.setTitle(book.getTitle());
-        // Populate data
+        // Get Image - unneccessary probably but it's here...
         Picasso.with(this).load(Uri.parse(book.getLargeCoverUrl())).error(R.mipmap.ic_launcher).into(ivBookCover);
+        // set title
         tvTitle.setText(book.getTitle());
+        //set author
         tvAuthor.setText(book.getAuthor());
         // fetch extra book data from books API
         client = new BookClient();
@@ -68,9 +71,7 @@ public class BookDetailActivity extends AppCompatActivity {
                         }
                         tvPublisher.setText(TextUtils.join(", ", publishers));
                     }
-                    if (response.has("number_of_pages")) {
-                        tvPageCount.setText(Integer.toString(response.getInt("number_of_pages")) + " pages");
-                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

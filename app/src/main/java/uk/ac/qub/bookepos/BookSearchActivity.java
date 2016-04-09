@@ -24,7 +24,7 @@ import java.util.ArrayList;
 /**
  * Created by Matt Ralphson
  */
-public class BookListActivity extends AppCompatActivity {
+public class BookSearchActivity extends AppCompatActivity {
     private ListView lvBooks;
     private BookAdapter bookAdapter;
     private ProgressBar progress;
@@ -34,7 +34,7 @@ public class BookListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.web_search);
+        setContentView(R.layout.activity_book_search);
         lvBooks = (ListView) findViewById(R.id.lvBooks);
         ArrayList<Book> aBooks = new ArrayList<Book>();
         bookAdapter = new BookAdapter(this, aBooks);
@@ -48,7 +48,7 @@ public class BookListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Launch the detail view passing book as an extra
-                Intent intent = new Intent(BookListActivity.this, BookDetailActivity.class);
+                Intent intent = new Intent(BookSearchActivity.this, BookDetailActivity.class);
                 intent.putExtra(BOOK_DETAIL_KEY, bookAdapter.getItem(position));
                 startActivity(intent);
             }
@@ -145,7 +145,7 @@ public class BookListActivity extends AppCompatActivity {
                 searchView.setIconified(true);
                 searchItem.collapseActionView();
                 // Set activity title to search query
-                BookListActivity.this.setTitle(query);
+                BookSearchActivity.this.setTitle(query);
                 return true;
             }
 

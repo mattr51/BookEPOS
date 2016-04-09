@@ -1,26 +1,26 @@
-package uk.ac.qub.bookepos;
+        package uk.ac.qub.bookepos;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.support.v4.view.MenuItemCompat;
+        import android.support.v7.app.AppCompatActivity;
+        import android.support.v7.widget.SearchView;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.view.View;
+        import android.widget.AdapterView;
+        import android.widget.ListView;
+        import android.widget.ProgressBar;
+        import android.widget.Toast;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
+        import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+        import org.json.JSONArray;
+        import org.json.JSONException;
+        import org.json.JSONObject;
 
-import cz.msebera.android.httpclient.Header;
-import java.util.ArrayList;
+        import cz.msebera.android.httpclient.Header;
+        import java.util.ArrayList;
 
 /**
  * Created by Matt Ralphson
@@ -37,13 +37,13 @@ public class Stock extends AppCompatActivity {
     String USER = intent.getStringExtra("user");
     // check get types
     String ADMIN = intent.getStringExtra("admin");
- //   String REFUND = intent.get
+    //   String REFUND = intent.get
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.web_search);
+        setContentView(R.layout.activity_book_search);
         lvBooks = (ListView) findViewById(R.id.lvBooks);
         ArrayList<Book> aBooks = new ArrayList<Book>();
         bookAdapter = new BookAdapter(this, aBooks);
