@@ -20,8 +20,6 @@ public class Book implements Serializable {
 
     public String getIsbn() { return isbn; }
 
-
-
     public String getOpenLibraryId() {
         return openLibraryId;
     }

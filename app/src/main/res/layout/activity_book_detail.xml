@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".BookListActivity">
+    tools:context=".BookSearchActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,58 +19,104 @@
             <ImageView
                 android:id="@+id/ivBookCover"
                 android:layout_marginTop="8dp"
-                android:layout_width="280dp"
-                android:layout_height="280dp" />
+                android:layout_width="181dp"
+                android:layout_height="181dp"
+                android:layout_weight="1" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/tvISBN"
-                android:layout_gravity="center_horizontal" />
-
-            <TextView
+                <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:textSize="32sp"
                 android:layout_marginTop="8dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp" />
+                android:paddingRight="10dp"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/tvAuthor"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:textSize="22sp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:text="Published By"
+                android:textSize="14sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvPublisher"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:textSize="14sp"
+                android:layout_weight="1" />
 
             <View
                 android:background="@android:color/darker_gray"
                 android:layout_width="280dp"
                 android:layout_height="1px"
-                android:layout_marginTop="8dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Published By"
-                android:textSize="14sp" />
+                android:layout_weight="1" />
 
-            <TextView
-                android:id="@+id/tvPublisher"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp" />
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="4.01">
 
-            <TextView
-                android:id="@+id/tvPageCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textSize="14sp" />
-        </LinearLayout>
+                <EditText
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:inputType="numberDecimal"
+                   android:ems="10"
+                   android:id="@+id/etQuant"
+                   android:layout_gravity="right"
+                   android:layout_weight="1"
+                   android:hint="Quantity..." />
+
+                <EditText
+                   android:layout_width="0dp"
+                    android:layout_weight="1"
+                   android:layout_height="match_parent"
+                   android:inputType="numberDecimal"
+                   android:ems="10"
+                   android:id="@+id/etPrice"
+                   android:layout_gravity="right"
+                    android:hint="Price..." />
+
+            </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add to Basket"
+            android:id="@+id/btAddToBasket" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update Stock"
+            android:id="@+id/btUpdateStock"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+
+    </LinearLayout>
     </ScrollView>
 </LinearLayout>

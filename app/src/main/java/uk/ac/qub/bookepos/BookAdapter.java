@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 /**
  * Created by YS15121055 on 15/02/2016.
+ * Takes the array of books returned
  */
 public class BookAdapter extends ArrayAdapter<Book> {
     // View lookup cache
