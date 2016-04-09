@@ -32,7 +32,7 @@ public class LoginApiEndPoint extends ApiEndPoint {
             user = userObject.getString("user");
             admin = userObject.getInt("admin");
 
-            Intent i = new Intent(context, Sales.class);
+            Intent i = new Intent(context, BookSearchActivity.class);
             i.putExtra("user", user);
             i.putExtra("admin", admin);
             context.startActivity(i);
