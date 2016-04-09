@@ -1,6 +1,7 @@
 package uk.ac.qub.bookepos;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,6 +9,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -30,6 +32,7 @@ abstract class ApiEndPoint extends AsyncTask<HashMap<String, String>, String, St
         try {
             URL url = new URL(getEndPoint());
 
+            /*
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setDoOutput(true);
             OutputStream os = httpURLConnection.getOutputStream();
@@ -43,7 +46,8 @@ abstract class ApiEndPoint extends AsyncTask<HashMap<String, String>, String, St
             }
 
             is.close();
-            httpURLConnection.disconnect();
+            httpURLConnection.disconnect();*/
+            data = "111112222211{'user_data':[]}";
 
             return data;
         } catch (MalformedURLException e) {

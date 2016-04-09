@@ -14,9 +14,24 @@ import java.util.ArrayList;
  */
 public class Book implements Serializable {
     private String openLibraryId;
+
     private String author;
     private String title;
     private String isbn;
+    private double price;
+
+    public Book()
+    {
+    }
+
+    public Book(String isbn, String title, String author, double price) {
+        this.isbn = isbn;
+        this.title = title;
+        this.author = author;
+        this.price = price;
+    }
+
+    public double getPrice() { return price; }
 
     public String getIsbn() { return isbn; }
 

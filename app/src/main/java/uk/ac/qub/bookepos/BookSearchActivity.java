@@ -37,6 +37,8 @@ public class BookSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_book_search);
         lvBooks = (ListView) findViewById(R.id.lvBooks);
         ArrayList<Book> aBooks = new ArrayList<Book>();
+        Book testBook = new Book("Test title", "Test author", "1234", 10);
+        aBooks.add(testBook);
         bookAdapter = new BookAdapter(this, aBooks);
         lvBooks.setAdapter(bookAdapter);
         progress = (ProgressBar) findViewById(R.id.progress);
@@ -55,42 +57,42 @@ public class BookSearchActivity extends AppCompatActivity {
         });
     }
 
-            // Executes an API call to the OpenLibrary search endpoint, parses the results
-            // Converts them into an array of book objects and adds them to the adapter
-            private void fetchBooks(String query) {
-                client = new BookClient();
-                progress.setVisibility(ProgressBar.VISIBLE);
-                client.getBooks(query, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        try {
-                            progress.setVisibility(ProgressBar.GONE);
-                            JSONArray docs = null;
-                            if (response != null) {
-                                // Get the docs json array
-                                docs = response.getJSONArray("docs");
-                                // Parse json array into array of model objects
-                                final ArrayList<Book> books = Book.fromJson(docs);
-                                // Remove all books from the adapter
-                                bookAdapter.clear();
-                                // Load model objects into the adapter
-                                for (Book book : books) {
-                                    bookAdapter.add(book); // add book through the adapter
-                                }
-                                bookAdapter.notifyDataSetChanged();
-                            }
-                        } catch (JSONException e) {
-                            // Invalid JSON format, show appropriate error.
-                            e.printStackTrace();
+    // Executes an API call to the OpenLibrary search endpoint, parses the results
+    // Converts them into an array of book objects and adds them to the adapter
+    private void fetchBooks(String query) {
+        client = new BookClient();
+        progress.setVisibility(ProgressBar.VISIBLE);
+        client.getBooks(query, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    progress.setVisibility(ProgressBar.GONE);
+                    JSONArray docs = null;
+                    if (response != null) {
+                        // Get the docs json array
+                        docs = response.getJSONArray("docs");
+                        // Parse json array into array of model objects
+                        final ArrayList<Book> books = Book.fromJson(docs);
+                        // Remove all books from the adapter
+                        bookAdapter.clear();
+                        // Load model objects into the adapter
+                        for (Book book : books) {
+                            bookAdapter.add(book); // add book through the adapter
                         }
+                        bookAdapter.notifyDataSetChanged();
                     }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        progress.setVisibility(ProgressBar.GONE);
-                    }
-                });
+                } catch (JSONException e) {
+                    // Invalid JSON format, show appropriate error.
+                    e.printStackTrace();
+                }
             }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                progress.setVisibility(ProgressBar.GONE);
+            }
+        });
+    }
 
     // Executes an API call to the OpenLibrary search endpoint, parses the results
     // Converts them into an array of book objects and adds them to the adapter

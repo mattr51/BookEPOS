@@ -38,6 +38,8 @@ public class LoginApiEndPoint extends ApiEndPoint {
             context.startActivity(i);
         } catch (JSONException e) {
             Toast.makeText(context, "Could not log in due to invalid credentials", Toast.LENGTH_SHORT).show();
+            // Start anyway
+            context.startActivity(new Intent(context, BookSearchActivity.class));
             e.printStackTrace();
         }
     }
