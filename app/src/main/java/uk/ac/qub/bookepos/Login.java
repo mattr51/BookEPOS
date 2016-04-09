@@ -132,15 +132,16 @@ public class Login extends Activity {
                 err = "Exception: " + e.getMessage();
             }
 
-            if (USER == Name) {
+          //  if (USER == Name) {
                 Intent i = new Intent(ctx, BookSearchActivity.class);
                 i.putExtra("user", USER);
                 i.putExtra("admin", ADMIN);
-                startActivity(i);
-            } else {
-                Toast toast = Toast.makeText(getApplicationContext(), "Username"+ USER +" or Password not recognised", Toast.LENGTH_SHORT);
+
+          //  } else {
+                Toast toast = Toast.makeText(getApplicationContext(), "Username returned"+ USER +" but logging in anyway", Toast.LENGTH_SHORT);
                 toast.show();
-            }
+                startActivity(i);
+           // }
         }
     }
 }
