@@ -41,7 +41,7 @@ public class BookDetailActivity extends AppCompatActivity {
         tvAuthor = (TextView) findViewById(R.id.tvAuthor);
         tvPublisher = (TextView) findViewById(R.id.tvPublisher);
         // Use the book to populate the data into our views
-        Book book = (Book) getIntent().getSerializableExtra(BookSearchActivity.BOOK_DETAIL_KEY);
+        Book book = (Book) getIntent().getSerializableExtra(BookSearchFragment.BOOK_DETAIL_KEY);
         loadBook(book);
     }
 

@@ -2,10 +2,8 @@ package uk.ac.qub.bookepos;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,14 +32,14 @@ public class LoginApiEndPoint extends ApiEndPoint {
             //testing that user is returned
             Toast.makeText(context, "user returned as"+result, Toast.LENGTH_SHORT).show();
 
-            Intent i = new Intent(context, BookSearchActivity.class);
+            Intent i = new Intent(context, BeposActivity.class);
             i.putExtra("user", user);
             i.putExtra("admin", admin);
             context.startActivity(i);
         } catch (JSONException e) {
             Toast.makeText(context, "Could not log in due to invalid credentials", Toast.LENGTH_SHORT).show();
             // Start anyway
-            context.startActivity(new Intent(context, BookSearchActivity.class));
+            context.startActivity(new Intent(context, BeposActivity.class));
             e.printStackTrace();
         }
     }

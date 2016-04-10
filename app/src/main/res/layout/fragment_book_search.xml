@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/inventory"
         android:orientation="vertical"
-        tools:context=".BookSearchActivity"
+        tools:context=".BookSearchFragment"
         android:weightSum="1">
 
         <LinearLayout
@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Search"
-                android:onClick="doSearch">
+                android:id="@+id/do_search_button">
             </Button>
         </LinearLayout>
         <ListView

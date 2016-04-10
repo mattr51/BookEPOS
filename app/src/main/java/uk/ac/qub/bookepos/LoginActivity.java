@@ -11,7 +11,7 @@ import java.util.HashMap;
 /**
  * Created by Matt Ralphson
  */
-public class Login extends Activity {
+public class LoginActivity extends Activity {
     EditText name, password;
     String Name, Password;
     String USER=null;
@@ -22,7 +22,7 @@ public class Login extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_login);
         name = (EditText) findViewById(R.id.main_name);
         password = (EditText) findViewById(R.id.main_password);
     }
