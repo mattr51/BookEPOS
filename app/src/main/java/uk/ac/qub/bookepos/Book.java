@@ -31,6 +31,8 @@ public class Book implements Serializable {
         this.price = price;
     }
 
+    public int getItemId() { return itemId; }
+
     public double getPrice() { return price; }
 
     public String getOpenLibraryId() {

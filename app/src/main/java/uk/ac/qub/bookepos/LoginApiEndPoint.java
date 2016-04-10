@@ -29,8 +29,12 @@ public class LoginApiEndPoint extends ApiEndPoint {
             JSONObject userObject = result.getJSONObject("user_data");
             user = userObject.getString("user");
             admin = userObject.getInt("admin");
+
             //testing that user is returned
             Toast.makeText(context, "user returned as"+result, Toast.LENGTH_SHORT).show();
+
+            CredentialsManager credentialsManager = new CredentialsManager(context);
+            credentialsManager.setLoggedInUser(user, admin == 1);
 
             Intent i = new Intent(context, BeposActivity.class);
             i.putExtra("user", user);
