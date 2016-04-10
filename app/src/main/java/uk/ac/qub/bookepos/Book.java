@@ -14,7 +14,6 @@ import java.util.ArrayList;
  */
 public class Book implements Serializable {
     private String openLibraryId;
-
     private String author;
     private String title;
     private String isbn;

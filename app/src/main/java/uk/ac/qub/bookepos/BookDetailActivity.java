@@ -49,7 +49,7 @@ public class BookDetailActivity extends AppCompatActivity {
     private void loadBook(Book book) {
         //change activity title
         this.setTitle(book.getTitle());
-        // Get Image - unneccessary probably but it's here...
+        // Get Image - unneccessary probabl0y but it's here...
         Picasso.with(this).load(Uri.parse(book.getLargeCoverUrl())).error(R.mipmap.ic_launcher).into(ivBookCover);
         // set title
         tvTitle.setText(book.getTitle());
