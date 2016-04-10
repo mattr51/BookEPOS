@@ -31,6 +31,8 @@ public class LoginApiEndPoint extends ApiEndPoint {
             JSONObject userObject = result.getJSONObject("user_data");
             user = userObject.getString("user");
             admin = userObject.getInt("admin");
+            //testing that user is returned
+            Toast.makeText(context, "user returned as"+result, Toast.LENGTH_SHORT).show();
 
             Intent i = new Intent(context, BookSearchActivity.class);
             i.putExtra("user", user);

@@ -1,6 +1,7 @@
 package uk.ac.qub.bookepos;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -32,7 +33,7 @@ abstract class ApiEndPoint extends AsyncTask<HashMap<String, String>, String, St
         try {
             URL url = new URL(getEndPoint());
 
-            /*
+
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setDoOutput(true);
             OutputStream os = httpURLConnection.getOutputStream();
@@ -46,8 +47,8 @@ abstract class ApiEndPoint extends AsyncTask<HashMap<String, String>, String, St
             }
 
             is.close();
-            httpURLConnection.disconnect();*/
-            data = "111112222211{'user_data':[]}";
+            httpURLConnection.disconnect();
+           // data = "111112222211{'user_data':[]}";
 
             return data;
         } catch (MalformedURLException e) {
@@ -62,11 +63,13 @@ abstract class ApiEndPoint extends AsyncTask<HashMap<String, String>, String, St
     @Override
     protected void onPostExecute(String s) {
         try {
-            String dataWithConnectedStrippedOut = s.substring(12);
-            JSONObject root = new JSONObject(dataWithConnectedStrippedOut);
+           String removedBOM  = s.substring(3);
+            JSONObject root = new JSONObject(removedBOM);
             handleResult(root);
+            Log.d("s", "onPostExecute: " + s);
         } catch (JSONException e) {
             e.printStackTrace();
+            Log.d("s", "onPostExecute: " + s);
         }
     }
 
