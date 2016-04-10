@@ -6,14 +6,11 @@
     android:orientation="vertical"
     tools:context=".BookSearchActivity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <LinearLayout
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <ImageView
@@ -57,12 +54,6 @@
                 android:textSize="14sp"
                 android:layout_weight="1" />
 
-            <View
-                android:background="@android:color/darker_gray"
-                android:layout_width="280dp"
-                android:layout_height="1px"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -106,17 +97,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add to Basket"
-            android:id="@+id/btAddToBasket" />
+            android:id="@+id/btAddToBasket"
+            android:layout_gravity="bottom|left"
+            android:layout_weight="1"
+            android:padding="5dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Update Stock"
             android:id="@+id/btUpdateStock"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="bottom|right"
+            android:layout_weight="1"
+            android:enabled="true"
+            android:padding="5dp" />
 
     </LinearLayout>
 
     </LinearLayout>
-    </ScrollView>
 </LinearLayout>
