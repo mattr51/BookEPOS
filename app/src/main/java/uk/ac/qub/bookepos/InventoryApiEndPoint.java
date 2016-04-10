@@ -12,10 +12,10 @@ import java.util.List;
  */
 public class InventoryApiEndPoint extends ApiEndPoint {
 
-    private ArrayList<Book> books;
+    private BookAdapter bookAdapter;
 
-    public ArrayList<Book> getBooks() {
-        return books;
+    public InventoryApiEndPoint(BookAdapter bookAdapter) {
+        this.bookAdapter = bookAdapter;
     }
 
     @Override
@@ -25,19 +25,20 @@ public class InventoryApiEndPoint extends ApiEndPoint {
 
     void handleResult(JSONObject object) {
         try {
-            books = new ArrayList<Book>();
-
+            bookAdapter.clear();
             JSONArray inventory = object.getJSONArray("inventory");
             for (int i = 0; i < inventory.length(); i++) {
                 JSONObject inventoryItem = inventory.getJSONObject(i);
                 Book book = new Book(
+                        inventoryItem.getInt("itemID"),
                         inventoryItem.getString("title"),
-                        inventoryItem.getString("author"),
+                        inventoryItem.getString("authors"),
                         inventoryItem.getDouble("price"));
-                books.add(book);
+                bookAdapter.add(book);
             }
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
+        bookAdapter.notifyDataSetChanged();
     }
 }

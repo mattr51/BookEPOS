@@ -18,13 +18,15 @@ public class Book implements Serializable {
     private String author;
     private String title;
     private String isbn;
+    private int itemId;
     private double price;
 
     public Book()
     {
     }
 
-    public Book(String title, String author, double price) {
+    public Book(int itemId, String title, String author, double price) {
+        this.itemId = itemId;
         this.title = title;
         this.author = author;
         this.price = price;

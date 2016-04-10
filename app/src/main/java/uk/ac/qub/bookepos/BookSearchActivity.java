@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -38,7 +39,7 @@ public class BookSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_book_search);
         lvBooks = (ListView) findViewById(R.id.lvBooks);
         ArrayList<Book> aBooks = new ArrayList<Book>();
-        Book testBook = new Book("Test title", "Test author", 10);
+        Book testBook = new Book(1, "Test title", "Test author", 10);
         aBooks.add(testBook);
         bookAdapter = new BookAdapter(this, aBooks);
         lvBooks.setAdapter(bookAdapter);
@@ -46,12 +47,16 @@ public class BookSearchActivity extends AppCompatActivity {
         setupBookSelectedListener();
     }
 
-    private void DoSearch(String searchTerms) {
-        InventoryApiEndPoint inventoryApiEndPoint = new InventoryApiEndPoint();
+    public void doSearch(View v) {
+        TextView searchTextView = (TextView)findViewById(R.id.search_terms_text);
+        doSearch(searchTextView.getText().toString());
+    }
+
+    private void doSearch(String searchTerms) {
+        InventoryApiEndPoint inventoryApiEndPoint = new InventoryApiEndPoint(bookAdapter);
         HashMap<String, String> urlParams = new HashMap<>();
         urlParams.put("searchTerms", searchTerms);
         inventoryApiEndPoint.execute(urlParams);
-        bookAdapter = new BookAdapter(this, inventoryApiEndPoint.getBooks());
     }
 
     public void setupBookSelectedListener() {
