@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,6 +31,7 @@ public class BookDetailActivity extends AppCompatActivity {
     private Button btUpdateStock;
     private Button btAddToBasket;
     private BookClient client;
+    private Book book;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +43,8 @@ public class BookDetailActivity extends AppCompatActivity {
         tvAuthor = (TextView) findViewById(R.id.tvAuthor);
         tvPublisher = (TextView) findViewById(R.id.tvPublisher);
         // Use the book to populate the data into our views
-        Book book = (Book) getIntent().getSerializableExtra(BookSearchFragment.BOOK_DETAIL_KEY);
-        loadBook(book);
+        this.book = (Book) getIntent().getSerializableExtra(BookSearchFragment.BOOK_DETAIL_KEY);
+        loadBook(this.book);
     }
 
     // Populate data for the book
@@ -100,5 +102,13 @@ public class BookDetailActivity extends AppCompatActivity {
         }
 */
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addToBasket(View view) {
+        BasketManager basketManager = new BasketManager(getApplicationContext());
+        EditText quantityEditText = (EditText) findViewById(R.id.etQuant);
+        int quantity = Integer.parseInt(quantityEditText.getText().toString());
+        basketManager.addBookToBasket(this.book, quantity);
+        finish();
     }
 }

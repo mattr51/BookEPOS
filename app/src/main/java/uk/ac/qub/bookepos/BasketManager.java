@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  * Created by Matt Ralphsson on 10/04/16.
@@ -31,7 +32,15 @@ public class BasketManager {
 
     public void addBookToBasket(Book book, int quantity) {
         BasketItem basketItem = new BasketItem(book, quantity);
-        basketItems.add(basketItem);
+        boolean isItemInBasket = false;
+        for (BasketItem inBasketItem : basketItems) {
+            if (inBasketItem.getBook().getItemId() == book.getItemId()) {
+                inBasketItem.setQuantity(inBasketItem.getQuantity() + quantity);
+                isItemInBasket = true;
+            }
+        }
+        if (!isItemInBasket)
+            basketItems.add(basketItem);
         serialise();
     }
 
@@ -53,7 +62,7 @@ public class BasketManager {
         try {
             fos = context.openFileOutput("basket.csv", Context.MODE_PRIVATE);
             for (BasketItem basketItem : basketItems) {
-                String basketItemString = basketItem.getBook().toString() + "|" + basketItem.getQuantity() + "\n";
+                String basketItemString = serialiseBook(basketItem.getBook()) + "|" + basketItem.getQuantity() + "\n";
                 fos.write(basketItemString.getBytes());
             }
             fos.close();
@@ -92,7 +101,8 @@ public class BasketManager {
             String line = "";
 
             while ((line = bufferedReader.readLine()) != null ) {
-                String[] bookAndQuantity = line.split("|");
+                if (line.isEmpty()) return;
+                String[] bookAndQuantity = line.split(Pattern.quote("|"));
                 String bookString = bookAndQuantity[0];
                 Book book = deserialiseBook(bookString);
                 String quantityString = bookAndQuantity[1];

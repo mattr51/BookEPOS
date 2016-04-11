@@ -16,6 +16,8 @@ public class BasketItem {
         return quantity;
     }
 
+    public void setQuantity(int quantity) { this.quantity = quantity; }
+
     public Book getBook() {
         return book;
     }
