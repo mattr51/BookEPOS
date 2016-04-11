@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,9 +27,10 @@ public class LoginApiEndPoint extends ApiEndPoint {
         String user;
         int admin;
         try {
-            JSONObject userObject = result.getJSONObject("user_data");
-            user = userObject.getString("user");
-            admin = userObject.getInt("admin");
+            JSONArray user_data = result.getJSONArray("user_data");
+            JSONObject user_details = user_data.getJSONObject(0);
+            user = user_details.getString("user");
+            admin = user_details.getInt("admin");
 
             //testing that user is returned
             Toast.makeText(context, "user returned as"+result, Toast.LENGTH_SHORT).show();
