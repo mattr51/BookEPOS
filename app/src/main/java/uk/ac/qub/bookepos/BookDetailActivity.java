@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
@@ -21,6 +22,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -46,6 +49,7 @@ public class BookDetailActivity extends AppCompatActivity {
         tvAuthor = (TextView) findViewById(R.id.tvAuthor);
         tvPublisher = (TextView) findViewById(R.id.tvPublisher);
         etQuant = (EditText) findViewById(R.id.etQuant);
+        etPrice = (EditText) findViewById(R.id.etPrice);
         btAddToBasket  = (Button) findViewById(R.id.btAddToBasket);
         // Use the book to populate the data into our views
         this.book = (Book) getIntent().getSerializableExtra(BookSearchFragment.BOOK_DETAIL_KEY);
@@ -149,6 +153,31 @@ public class BookDetailActivity extends AppCompatActivity {
         BasketManager basketManager = new BasketManager(getApplicationContext());
         int quantity = Integer.parseInt(etQuant.getText().toString());
         basketManager.addBookToBasket(this.book, quantity);
+        String action = quantity >= 0 ? "Added " : "Refunded ";
+        String message = action + quantity + " copies of " + this.book.getTitle() + " to the basket";
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        finish();
+    }
+
+    public void updateStock(View view) {
+        StockApiEndPoint stockApiEndPoint = new StockApiEndPoint();
+        HashMap<String, String> stockUpdate = new HashMap<>();
+
+        stockUpdate.put("itemID", Integer.toString(this.book.getItemId()));
+
+        String message = "Updated stock for " + this.book.getTitle();
+
+        if (etPrice.getText().toString() != "") {
+            stockUpdate.put("price", etPrice.getText().toString());
+            message += " - price updated: " + etPrice.getText();
+        }
+        if (etQuant.getText().toString() != "") {
+            stockUpdate.put("quantity", etQuant.getText().toString());
+            message += " - quantity updated: " + etQuant.getText();
+        }
+
+        stockApiEndPoint.execute(stockUpdate);
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         finish();
     }
 }
