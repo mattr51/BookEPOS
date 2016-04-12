@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -31,19 +32,19 @@ public class CheckoutFragment extends Fragment {
             }
         });
 
-        /// Display items in list view
-
         Button checkoutButton = (Button)view.findViewById(R.id.btn_checkout);
         checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 BasketManager basketManager = new BasketManager(getContext());
-                ArrayList<BasketItem> basketItems = basketManager.getBasketItems();
-                CheckoutApiEndPoint checkout = new CheckoutApiEndPoint();
-                for (int i = 0; i < basketItems.size(); i++){
-                    HashMap<String, String> urlParams = new HashMap<>();
-                     checkout.execute(urlParams);
-                }
+                String total = new DecimalFormat("0.00").format(basketManager.getBasketTotal());
+                int itemCount = basketManager.getBasketItemCount();
+                basketManager.checkout();
+                Toast.makeText(
+                        getContext(),
+                        "Sold " + itemCount + " item(s) for £" + total,
+                        Toast.LENGTH_LONG).show();
+                updateTotal();
             }
         });
 
@@ -62,5 +63,4 @@ public class CheckoutFragment extends Fragment {
         String basketTotalString = "Basket Total £" + new DecimalFormat("0.00").format(basketManager.getBasketTotal());
         totalText.setText(basketTotalString);
     }
-
 }

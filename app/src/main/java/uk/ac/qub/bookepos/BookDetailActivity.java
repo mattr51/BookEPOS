@@ -3,7 +3,10 @@ package uk.ac.qub.bookepos;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 import cz.msebera.android.httpclient.Header;
 
 public class BookDetailActivity extends AppCompatActivity {
@@ -33,7 +38,6 @@ public class BookDetailActivity extends AppCompatActivity {
     private Button btAddToBasket;
     private BookClient client;
     private Book book;
-    private boolean instock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,17 +48,55 @@ public class BookDetailActivity extends AppCompatActivity {
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvAuthor = (TextView) findViewById(R.id.tvAuthor);
         tvPublisher = (TextView) findViewById(R.id.tvPublisher);
+        etQuant = (EditText) findViewById(R.id.etQuant);
+        etPrice = (EditText) findViewById(R.id.etPrice);
+        btAddToBasket  = (Button) findViewById(R.id.btAddToBasket);
         // Use the book to populate the data into our views
         this.book = (Book) getIntent().getSerializableExtra(BookSearchFragment.BOOK_DETAIL_KEY);
-        instock = (boolean) getIntent().getExtras().getBoolean(BookSearchFragment.STOCK);
         loadBook(this.book);
+
+        etQuant.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
+        etQuant.addTextChangedListener(getQuantityChangeWatcher());
+    }
+
+    private TextWatcher getQuantityChangeWatcher() {
+        return new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if(s.length() != 0 && tryParseInt(s.toString())) {
+
+                    if (Integer.parseInt(s.toString()) >= 0)
+                        btAddToBasket.setText("Add to Basket");
+                    else
+                        btAddToBasket.setText("Refund Basket");
+                }
+            }
+
+            private boolean tryParseInt(String value) {
+                try {
+                    Integer.parseInt(value);
+                    return true;
+                } catch (NumberFormatException e) {
+                    return false;
+                }
+            }
+        };
     }
 
     // Populate data for the book
     private void loadBook(Book book) {
         //change activity title
         this.setTitle(book.getTitle());
-        // Get Image - unneccessary probabl0y but it's here...
         Picasso.with(this).load(Uri.parse(book.getLargeCoverUrl())).error(R.mipmap.ic_launcher).into(ivBookCover);
         // set title
         tvTitle.setText(book.getTitle());
@@ -107,21 +149,35 @@ public class BookDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Adds item to basket with current price and quantity
-     */
     public void addToBasket(View view) {
-       // try{
-      if (instock = true) {
-            BasketManager basketManager = new BasketManager(getApplicationContext());
-            EditText quantityEditText = (EditText) findViewById(R.id.etQuant);
-         //   EditText priceEditText = (EditText) findViewById(R.id.etPrice);
-            int quantity = Integer.parseInt(quantityEditText.getText().toString());
-       //     int price = Integer.parseInt(quantityEditText.getText().toString());
-            basketManager.addBookToBasket(this.book, quantity);
-            finish();
-        } else {
-            Toast.makeText(getApplicationContext(), "Not in stock - update stock instead", Toast.LENGTH_SHORT);
+        BasketManager basketManager = new BasketManager(getApplicationContext());
+        int quantity = Integer.parseInt(etQuant.getText().toString());
+        basketManager.addBookToBasket(this.book, quantity);
+        String action = quantity >= 0 ? "Added " : "Refunded ";
+        String message = action + quantity + " copies of " + this.book.getTitle() + " to the basket";
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        finish();
+    }
+
+    public void updateStock(View view) {
+        StockApiEndPoint stockApiEndPoint = new StockApiEndPoint();
+        HashMap<String, String> stockUpdate = new HashMap<>();
+
+        stockUpdate.put("itemID", Integer.toString(this.book.getItemId()));
+
+        String message = "Updated stock for " + this.book.getTitle();
+
+        if (etPrice.getText().toString() != "") {
+            stockUpdate.put("price", etPrice.getText().toString());
+            message += " - price updated: " + etPrice.getText();
         }
+        if (etQuant.getText().toString() != "") {
+            stockUpdate.put("quantity", etQuant.getText().toString());
+            message += " - quantity updated: " + etQuant.getText();
+        }
+
+        stockApiEndPoint.execute(stockUpdate);
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        finish();
     }
 }
