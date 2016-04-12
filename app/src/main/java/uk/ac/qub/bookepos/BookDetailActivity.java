@@ -3,7 +3,10 @@ package uk.ac.qub.bookepos;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,9 +45,48 @@ public class BookDetailActivity extends AppCompatActivity {
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvAuthor = (TextView) findViewById(R.id.tvAuthor);
         tvPublisher = (TextView) findViewById(R.id.tvPublisher);
+        etQuant = (EditText) findViewById(R.id.etQuant);
+        btAddToBasket  = (Button) findViewById(R.id.btAddToBasket);
         // Use the book to populate the data into our views
         this.book = (Book) getIntent().getSerializableExtra(BookSearchFragment.BOOK_DETAIL_KEY);
         loadBook(this.book);
+
+        etQuant.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
+        etQuant.addTextChangedListener(getQuantityChangeWatcher());
+    }
+
+    private TextWatcher getQuantityChangeWatcher() {
+        return new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if(s.length() != 0 && tryParseInt(s.toString())) {
+
+                    if (Integer.parseInt(s.toString()) >= 0)
+                        btAddToBasket.setText("Add to Basket");
+                    else
+                        btAddToBasket.setText("Refund Basket");
+                }
+            }
+
+            private boolean tryParseInt(String value) {
+                try {
+                    Integer.parseInt(value);
+                    return true;
+                } catch (NumberFormatException e) {
+                    return false;
+                }
+            }
+        };
     }
 
     // Populate data for the book
@@ -105,8 +147,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
     public void addToBasket(View view) {
         BasketManager basketManager = new BasketManager(getApplicationContext());
-        EditText quantityEditText = (EditText) findViewById(R.id.etQuant);
-        int quantity = Integer.parseInt(quantityEditText.getText().toString());
+        int quantity = Integer.parseInt(etQuant.getText().toString());
         basketManager.addBookToBasket(this.book, quantity);
         finish();
     }
