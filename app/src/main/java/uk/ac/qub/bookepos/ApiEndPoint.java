@@ -36,7 +36,9 @@ abstract class ApiEndPoint extends AsyncTask<HashMap<String, String>, String, St
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setDoOutput(true);
             OutputStream os = httpURLConnection.getOutputStream();
-            os.write(stringify(urlParameters).getBytes());
+            String fullUrl = stringify(urlParameters);
+            Log.i("ApiCall", fullUrl);
+            os.write(fullUrl.getBytes());
             os.flush();
             os.close();
 

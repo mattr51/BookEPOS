@@ -1,7 +1,6 @@
 package uk.ac.qub.bookepos;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import java.io.BufferedReader;
@@ -24,6 +23,18 @@ public class BasketManager {
     public BasketManager(Context context) {
         this.context = context;
         deserialise();
+    }
+
+    public void checkout() {
+        CredentialsManager credentialsManager = new CredentialsManager(context);
+        String username = credentialsManager.getLoggedInUser();
+        CheckoutApiEndPoint checkout = new CheckoutApiEndPoint();
+
+        for (BasketItem basketItem : basketItems) {
+            checkout.checkout(basketItem, username);
+        }
+
+        clearBasket();
     }
 
     public ArrayList<BasketItem> getBasketItems() {
@@ -55,6 +66,14 @@ public class BasketManager {
             total += basketItem.getQuantity() * basketItem.getBook().getPrice();
         }
         return total;
+    }
+
+    public int getBasketItemCount() {
+        int count = 0;
+        for (BasketItem basketItem : basketItems) {
+            count += basketItem.getQuantity();
+        }
+        return count;
     }
 
     private void serialise() {

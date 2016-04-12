@@ -38,8 +38,6 @@ public class BookSearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_book_search, container, false);
         lvBooks = (ListView) view.findViewById(R.id.lvBooks);
         ArrayList<Book> aBooks = new ArrayList<Book>();
-        Book testBook = new Book(1, "Test title", "Test author", 10);
-        aBooks.add(testBook);
         bookAdapter = new BookAdapter(getContext(), aBooks);
         lvBooks.setAdapter(bookAdapter);
         progress = (ProgressBar) view.findViewById(R.id.progress);

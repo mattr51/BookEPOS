@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Matt Ralphson
@@ -35,12 +37,14 @@ public class CheckoutFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 BasketManager basketManager = new BasketManager(getContext());
-                ArrayList<BasketItem> basketItems = basketManager.getBasketItems();
-                // Call the as of yet unimplemented CheckoutApiEndPoint method
-                // CheckoutApiEndPoint checkout = new CheckoutApiEndPoint();
-                // for basketItem in basketItems
-                // new HashMap of basketItem args
-                // checkout.execute(basketItemhashmap)
+                String total = new DecimalFormat("0.00").format(basketManager.getBasketTotal());
+                int itemCount = basketManager.getBasketItemCount();
+                basketManager.checkout();
+                Toast.makeText(
+                        getContext(),
+                        "Sold " + itemCount + " item(s) for £" + total,
+                        Toast.LENGTH_LONG).show();
+                updateTotal();
             }
         });
 
