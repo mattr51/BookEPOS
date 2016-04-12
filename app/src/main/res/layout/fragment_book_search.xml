@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:text="Add Book to Inventory"
-            android:id="@+id/btManE" />
+            android:text="Search online to add to stock"
+            android:id="@+id/btFetch" />
     </FrameLayout>
 </RelativeLayout>

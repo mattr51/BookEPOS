@@ -31,8 +31,7 @@ abstract class ApiEndPoint extends AsyncTask<HashMap<String, String>, String, St
         HashMap<String, String> urlParameters = params[0];
 
         try {
-            URL url = new URL(getEndPoint());
-
+            URL url = new URL(getEndPoint()+stringify(urlParameters));
 
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setDoOutput(true);
@@ -66,10 +65,10 @@ abstract class ApiEndPoint extends AsyncTask<HashMap<String, String>, String, St
            String removedBOM  = s.substring(3);
             JSONObject root = new JSONObject(removedBOM);
             handleResult(root);
-            Log.d("s", "onPostExecute: " + s);
+            Log.d("s", "onPostExecute: " + removedBOM);
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.d("s", "onPostExecute: " + s);
+            Log.d("s", "onPostExecute: " );
         }
     }
 
@@ -83,7 +82,7 @@ abstract class ApiEndPoint extends AsyncTask<HashMap<String, String>, String, St
         return urlParametersString.toString();
     }
 
-    protected String domain = "http://54.171.237.154/";
+    protected String domain = "http://54.171.237.154/html/bepos/";
 
     abstract String getEndPoint();
 

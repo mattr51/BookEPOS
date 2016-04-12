@@ -4,24 +4,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Matt Ralphson on 09/04/16.
  */
-public class InventoryApiEndPoint extends ApiEndPoint {
+public class CheckoutApiEndPoint extends ApiEndPoint {
 
     private BookAdapter bookAdapter;
 
-    public InventoryApiEndPoint(BookAdapter bookAdapter) {
+    public CheckoutApiEndPoint(BookAdapter bookAdapter) {
         this.bookAdapter = bookAdapter;
     }
 
+    //put loop here for each item in basket
+    //run sell script
     @Override
     String getEndPoint() {
-        return domain + "inventory.php?";
+        return domain + "/html/bepos/sell.php?";
     }
+
+
 
     void handleResult(JSONObject object) {
         try {

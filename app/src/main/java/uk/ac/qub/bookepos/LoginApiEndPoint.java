@@ -20,7 +20,7 @@ public class LoginApiEndPoint extends ApiEndPoint {
     }
 
     public String getEndPoint() {
-        return domain + "/html/bepos/login.php";
+        return domain + "login.php?";
     }
 
     public void handleResult(JSONObject result) {

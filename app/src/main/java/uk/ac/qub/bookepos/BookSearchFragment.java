@@ -45,11 +45,19 @@ public class BookSearchFragment extends Fragment {
         progress = (ProgressBar) view.findViewById(R.id.progress);
 
         Button doSearchButton = (Button) view.findViewById(R.id.do_search_button);
+        Button doFetchButton = (Button) view.findViewById(R.id.btFetch);
         doSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TextView searchTextView = (TextView)getView().findViewById(R.id.search_terms_text);
                 doSearch(searchTextView.getText().toString());
+            }
+        });
+        doFetchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView searchTextView = (TextView)getView().findViewById(R.id.search_terms_text);
+                fetchBooks(searchTextView.getText().toString());
             }
         });
 
