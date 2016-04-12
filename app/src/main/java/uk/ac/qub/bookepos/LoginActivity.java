@@ -1,12 +1,12 @@
-package uk.ac.qub.bookepos;
+        package uk.ac.qub.bookepos;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
+        import android.app.Activity;
+        import android.content.Context;
+        import android.os.Bundle;
+        import android.view.View;
+        import android.widget.EditText;
 
-import java.util.HashMap;
+        import java.util.HashMap;
 
 /**
  * Created by Matt Ralphson

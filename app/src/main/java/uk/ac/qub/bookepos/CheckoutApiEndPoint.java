@@ -1,5 +1,7 @@
 package uk.ac.qub.bookepos;
 
+import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,37 +11,12 @@ import org.json.JSONObject;
  */
 public class CheckoutApiEndPoint extends ApiEndPoint {
 
-    private BookAdapter bookAdapter;
-
-    public CheckoutApiEndPoint(BookAdapter bookAdapter) {
-        this.bookAdapter = bookAdapter;
-    }
-
-    //put loop here for each item in basket
-    //run sell script
     @Override
     String getEndPoint() {
-        return domain + "/html/bepos/sell.php?";
+        return domain + "sell.php?";
     }
 
-
-
     void handleResult(JSONObject object) {
-        try {
-            bookAdapter.clear();
-            JSONArray inventory = object.getJSONArray("inventory");
-            for (int i = 0; i < inventory.length(); i++) {
-                JSONObject inventoryItem = inventory.getJSONObject(i);
-                Book book = new Book(
-                        inventoryItem.getInt("itemID"),
-                        inventoryItem.getString("title"),
-                        inventoryItem.getString("authors"),
-                        inventoryItem.getDouble("price"));
-                bookAdapter.add(book);
-            }
-        } catch (JSONException ex) {
-            ex.printStackTrace();
-        }
-        bookAdapter.notifyDataSetChanged();
+
     }
 }

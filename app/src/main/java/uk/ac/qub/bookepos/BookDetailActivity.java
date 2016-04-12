@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
@@ -32,6 +33,7 @@ public class BookDetailActivity extends AppCompatActivity {
     private Button btAddToBasket;
     private BookClient client;
     private Book book;
+    private boolean instock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class BookDetailActivity extends AppCompatActivity {
         tvPublisher = (TextView) findViewById(R.id.tvPublisher);
         // Use the book to populate the data into our views
         this.book = (Book) getIntent().getSerializableExtra(BookSearchFragment.BOOK_DETAIL_KEY);
+        instock = (boolean) getIntent().getExtras().getBoolean(BookSearchFragment.STOCK);
         loadBook(this.book);
     }
 
@@ -51,6 +54,7 @@ public class BookDetailActivity extends AppCompatActivity {
     private void loadBook(Book book) {
         //change activity title
         this.setTitle(book.getTitle());
+        // Get Image - unneccessary probabl0y but it's here...
         Picasso.with(this).load(Uri.parse(book.getLargeCoverUrl())).error(R.mipmap.ic_launcher).into(ivBookCover);
         // set title
         tvTitle.setText(book.getTitle());
@@ -103,11 +107,21 @@ public class BookDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Adds item to basket with current price and quantity
+     */
     public void addToBasket(View view) {
-        BasketManager basketManager = new BasketManager(getApplicationContext());
-        EditText quantityEditText = (EditText) findViewById(R.id.etQuant);
-        int quantity = Integer.parseInt(quantityEditText.getText().toString());
-        basketManager.addBookToBasket(this.book, quantity);
-        finish();
+       // try{
+      if (instock = true) {
+            BasketManager basketManager = new BasketManager(getApplicationContext());
+            EditText quantityEditText = (EditText) findViewById(R.id.etQuant);
+         //   EditText priceEditText = (EditText) findViewById(R.id.etPrice);
+            int quantity = Integer.parseInt(quantityEditText.getText().toString());
+       //     int price = Integer.parseInt(quantityEditText.getText().toString());
+            basketManager.addBookToBasket(this.book, quantity);
+            finish();
+        } else {
+            Toast.makeText(getApplicationContext(), "Not in stock - update stock instead", Toast.LENGTH_SHORT);
+        }
     }
 }

@@ -36,7 +36,7 @@ abstract class ApiEndPoint extends AsyncTask<HashMap<String, String>, String, St
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setDoOutput(true);
             OutputStream os = httpURLConnection.getOutputStream();
-            os.write(stringify(urlParameters).getBytes());
+            //os.write(stringify(urlParameters).getBytes());
             os.flush();
             os.close();
 
@@ -47,7 +47,7 @@ abstract class ApiEndPoint extends AsyncTask<HashMap<String, String>, String, St
 
             is.close();
             httpURLConnection.disconnect();
-           // data = "111112222211{'user_data':[]}";
+
 
             return data;
         } catch (MalformedURLException e) {

@@ -33,7 +33,7 @@ public class LoginApiEndPoint extends ApiEndPoint {
             admin = user_details.getInt("admin");
 
             //testing that user is returned
-            Toast.makeText(context, "user returned as"+result, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();
 
             CredentialsManager credentialsManager = new CredentialsManager(context);
             credentialsManager.setLoggedInUser(user, admin == 1);
@@ -45,7 +45,7 @@ public class LoginApiEndPoint extends ApiEndPoint {
         } catch (JSONException e) {
             Toast.makeText(context, "Could not log in due to invalid credentials", Toast.LENGTH_SHORT).show();
             // Start anyway
-            context.startActivity(new Intent(context, BeposActivity.class));
+           // context.startActivity(new Intent(context, BeposActivity.class));
             e.printStackTrace();
         }
     }

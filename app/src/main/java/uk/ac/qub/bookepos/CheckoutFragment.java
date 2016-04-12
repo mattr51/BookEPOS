@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Matt Ralphson
@@ -30,17 +31,19 @@ public class CheckoutFragment extends Fragment {
             }
         });
 
+        /// Display items in list view
+
         Button checkoutButton = (Button)view.findViewById(R.id.btn_checkout);
         checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 BasketManager basketManager = new BasketManager(getContext());
                 ArrayList<BasketItem> basketItems = basketManager.getBasketItems();
-                // Call the as of yet unimplemented CheckoutApiEndPoint method
-                // CheckoutApiEndPoint checkout = new CheckoutApiEndPoint();
-                // for basketItem in basketItems
-                // new HashMap of basketItem args
-                // checkout.execute(basketItemhashmap)
+                CheckoutApiEndPoint checkout = new CheckoutApiEndPoint();
+                for (int i = 0; i < basketItems.size(); i++){
+                    HashMap<String, String> urlParams = new HashMap<>();
+                     checkout.execute(urlParams);
+                }
             }
         });
 
@@ -59,4 +62,5 @@ public class CheckoutFragment extends Fragment {
         String basketTotalString = "Basket Total £" + new DecimalFormat("0.00").format(basketManager.getBasketTotal());
         totalText.setText(basketTotalString);
     }
+
 }
