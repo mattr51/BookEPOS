@@ -39,10 +39,16 @@ public class BookDetailActivity extends AppCompatActivity {
     private BookClient client;
     private Book book;
 
+  //  public boolean getBooleanExtra(String NEWSTOCK, boolean false) {
+ //       return getBooleanExtra(NEWSTOCK);
+  //  }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
+  //      newItem = getIntent().getBooleanExtra("NEWSTOCK",);
         // Fetch views
         ivBookCover = (ImageView) findViewById(R.id.ivBookCover);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
@@ -160,24 +166,51 @@ public class BookDetailActivity extends AppCompatActivity {
     }
 
     public void updateStock(View view) {
-        StockApiEndPoint stockApiEndPoint = new StockApiEndPoint();
-        HashMap<String, String> stockUpdate = new HashMap<>();
 
-        stockUpdate.put("itemID", Integer.toString(this.book.getItemId()));
+        if(newItem = false) {
+            //Updates Current Stock
+            StockApiEndPoint stockApiEndPoint = new StockApiEndPoint();
+            HashMap<String, String> stockUpdate = new HashMap<>();
 
-        String message = "Updated stock for " + this.book.getTitle();
+            stockUpdate.put("itemID", Integer.toString(this.book.getItemId()));
 
-        if (etPrice.getText().toString() != "") {
-            stockUpdate.put("price", etPrice.getText().toString());
-            message += " - price updated: " + etPrice.getText();
+            String message = "Updated stock for " + this.book.getTitle();
+
+            if (etPrice.getText().toString() != "") {
+                stockUpdate.put("price", etPrice.getText().toString());
+                message += " - price updated: " + etPrice.getText();
+            }
+            if (etQuant.getText().toString() != "") {
+                stockUpdate.put("quantity", etQuant.getText().toString());
+                message += " - quantity updated: " + etQuant.getText();
+            }
+
+            stockApiEndPoint.execute(stockUpdate);
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+            finish();
+        } else {
+            InsertApiEndPoint insertApiEndPoint = new InsertApiEndPoint();
+            HashMap<String, String> stockUpdate = new HashMap<>();
+
+            // stockUpdate.put("itemID", Integer.toString(this.book.getItemId()));
+
+            String message = "Updated stock for " + this.book.getTitle();
+            this.book.getAuthor();
+            this.book.getIsbn();
+            if (etPrice.getText().toString() != "") {
+                stockUpdate.put("price", etPrice.getText().toString());
+                message += " - price updated: " + etPrice.getText();
+            }
+            if (etQuant.getText().toString() != "") {
+                stockUpdate.put("quantity", etQuant.getText().toString());
+                message += " - quantity updated: " + etQuant.getText();
+            }
+
+            insertApiEndPoint.execute(stockUpdate);
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+            finish();
         }
-        if (etQuant.getText().toString() != "") {
-            stockUpdate.put("quantity", etQuant.getText().toString());
-            message += " - quantity updated: " + etQuant.getText();
-        }
 
-        stockApiEndPoint.execute(stockUpdate);
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-        finish();
+
     }
 }

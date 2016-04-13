@@ -31,7 +31,22 @@ public class BookSearchFragment extends Fragment {
     private BookAdapter bookAdapter;
     private ProgressBar progress;
     private BookClient client;
+    public static final String NEWSTOCK = "newStock";
+    public boolean newStock = false;
     public static final String BOOK_DETAIL_KEY = "book";
+
+
+    public static boolean checkIfISBN(String in) {
+        try {
+            Integer.parseInt(in);
+        } catch (NumberFormatException ex) {
+            return false;     }
+           if (in.length()==10 || in.length()==13){
+            return true;} else {
+        return false;
+    }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +79,7 @@ public class BookSearchFragment extends Fragment {
     }
 
     private void doSearch(String searchTerms) {
+        newStock = false;
         InventoryApiEndPoint inventoryApiEndPoint = new InventoryApiEndPoint(bookAdapter);
         HashMap<String, String> urlParams = new HashMap<>();
         urlParams.put("searchTerms", searchTerms);
@@ -77,6 +93,8 @@ public class BookSearchFragment extends Fragment {
                 // Launch the detail view passing book as an extra
                 Intent intent = new Intent(getContext(), BookDetailActivity.class);
                 intent.putExtra(BOOK_DETAIL_KEY, bookAdapter.getItem(position));
+                intent.getBooleanExtra(NEWSTOCK, newStock)
+                        ;
                 startActivity(intent);
             }
         });
@@ -84,7 +102,8 @@ public class BookSearchFragment extends Fragment {
 
     // Executes an API call to the OpenLibrary search endpoint, parses the results
     // Converts them into an array of book objects and adds them to the adapter
-    private void fetchBooks(String query) {
+    private void fetchBooks(final String query) {
+        newStock = true;
         client = new BookClient();
         progress.setVisibility(ProgressBar.VISIBLE);
         client.getBooks(query, new JsonHttpResponseHandler() {
@@ -102,6 +121,10 @@ public class BookSearchFragment extends Fragment {
                         bookAdapter.clear();
                         // Load model objects into the adapter
                         for (Book book : books) {
+                            //checks if query is isbn format, if so sets query for book
+                            if(checkIfISBN(query)){
+                                book.setIsbn(query);
+                            }
                             bookAdapter.add(book); // add book through the adapter
                         }
                         bookAdapter.notifyDataSetChanged();
@@ -119,43 +142,7 @@ public class BookSearchFragment extends Fragment {
         });
     }
 
-    // Executes an API call to the OpenLibrary search endpoint, parses the results
-    // Converts them into an array of book objects and adds them to the adapter
-    private void fetchByISBN(String isbn) {
-        client = new BookClient();
-        progress.setVisibility(ProgressBar.VISIBLE);
-        client.getBooks(isbn, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    progress.setVisibility(ProgressBar.GONE);
-                    JSONArray docs = null;
-                    if (response != null) {
-                        // Get the docs json array
-                        docs = response.getJSONArray("docs");
-                        // Parse json array into array of model objects
-                        final ArrayList<Book> books = Book.fromJson(docs);
-                        // Remove all books from the adapter
-                        bookAdapter.clear();
-                        // Load model objects into the adapter
-                        for (Book book : books) {
-                            bookAdapter.add(book); // add book through the adapter
-                        }
-                        bookAdapter.notifyDataSetChanged();
-                    }
-                } catch (JSONException e) {
-                    // Invalid JSON format, show appropriate error.
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                progress.setVisibility(ProgressBar.GONE);
-            }
-        });
-    }
-
-    /*
+    /******** old code, search originally in menu, may be useful in future
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
