@@ -17,6 +17,16 @@ public class Book implements Serializable {
     private String author;
     private String title;
     private String isbn;
+
+    public String getPublishedBy() {
+        return publishedBy;
+    }
+
+    public void setPublishedBy(String publishedBy) {
+        this.publishedBy = publishedBy;
+    }
+
+    private String publishedBy;
     private int itemId;
     private double price;
 
@@ -32,6 +42,14 @@ public class Book implements Serializable {
     }
 
     public Book(int itemId, String title, String author, double price, String isbn) {
+        this.itemId = itemId;
+        this.title = title;
+        this.author = author;
+        this.price = price;
+        this.isbn = isbn;
+    }
+
+    public Book(int itemId, String title, String author, double price, String isbn, String publishedBy) {
         this.itemId = itemId;
         this.title = title;
         this.author = author;

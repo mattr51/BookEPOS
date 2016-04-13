@@ -3,6 +3,7 @@ package uk.ac.qub.bookepos;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,10 +33,14 @@ public class BookSearchFragment extends Fragment {
     private ProgressBar progress;
     private BookClient client;
     public static final String NEWSTOCK = "newStock";
-    public boolean newStock = false;
+    private boolean newStock;
     public static final String BOOK_DETAIL_KEY = "book";
 
-
+    /**
+     * method to check if search query is a isbn
+     * @param in (string searchTerms from user)     *
+     * @return true if in is numeric and 10 or 13 characters long, else false
+     */
     public static boolean checkIfISBN(String in) {
         try {
             Integer.parseInt(in);
@@ -93,8 +98,7 @@ public class BookSearchFragment extends Fragment {
                 // Launch the detail view passing book as an extra
                 Intent intent = new Intent(getContext(), BookDetailActivity.class);
                 intent.putExtra(BOOK_DETAIL_KEY, bookAdapter.getItem(position));
-                intent.getBooleanExtra(NEWSTOCK, newStock)
-                        ;
+                intent.putExtra(BookSearchFragment.NEWSTOCK, newStock);
                 startActivity(intent);
             }
         });
@@ -104,6 +108,8 @@ public class BookSearchFragment extends Fragment {
     // Converts them into an array of book objects and adds them to the adapter
     private void fetchBooks(final String query) {
         newStock = true;
+        Log.v("newItem","fetch books has set it to"+newStock);
+
         client = new BookClient();
         progress.setVisibility(ProgressBar.VISIBLE);
         client.getBooks(query, new JsonHttpResponseHandler() {

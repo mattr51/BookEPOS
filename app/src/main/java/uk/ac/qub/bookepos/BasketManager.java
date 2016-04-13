@@ -63,7 +63,7 @@ public class BasketManager {
     public double getBasketTotal() {
         double total = 0;
         for (BasketItem basketItem : basketItems) {
-            total += basketItem.getQuantity() * basketItem.getBook().getPrice();
+            total += (basketItem.getQuantity() * basketItem.getBook().getPrice());
         }
         return total;
     }
