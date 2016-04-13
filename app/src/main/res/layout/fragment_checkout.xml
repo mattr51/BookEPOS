@@ -3,30 +3,62 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Basket Total: £0"
-        android:padding="20dip"
-        android:id="@+id/textTotal" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="425dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="10dp">
-        <Button
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Checkout"
-            android:padding="10dp"
-            android:id="@+id/btn_checkout"/>
-        <Button
-            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/linearLayout">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Checkout"
+                android:padding="10dp"
+                android:id="@+id/btn_checkout"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clear Basket"
+                android:padding="10dp"
+                android:id="@+id/btn_clear_basket"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Clear Basket"
-            android:padding="10dp"
-            android:id="@+id/btn_clear_basket"/>
-    </LinearLayout>
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Basket Total: £0"
+            android:padding="20dip"
+            android:id="@+id/textTotal"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/BasketListView"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/linearLayout" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cash Up"
+            android:id="@+id/btCashUp"
+            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/linearLayout"
+            android:layout_alignEnd="@+id/linearLayout" />
+
+
+    </RelativeLayout>
+
 </LinearLayout>

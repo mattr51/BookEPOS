@@ -1,5 +1,7 @@
 package uk.ac.qub.bookepos;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,6 +19,8 @@ import java.util.HashMap;
  * Created by Matt Ralphson
  */
 public class CheckoutFragment extends Fragment {
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,8 +52,21 @@ public class CheckoutFragment extends Fragment {
             }
         });
 
+        Button cashUpButton = (Button)view.findViewById(R.id.btCashUp);
+        cashUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CashUpApiEndPoint cashUpApiEndPoint = new CashUpApiEndPoint(getContext());
+                HashMap<String, String> urlParameters = new HashMap<>();
+                cashUpApiEndPoint.execute(urlParameters);
+            }
+
+        });
+
         return view;
     }
+
+
 
     @Override
     public void onResume() {
@@ -63,4 +80,8 @@ public class CheckoutFragment extends Fragment {
         String basketTotalString = "Basket Total £" + new DecimalFormat("0.00").format(basketManager.getBasketTotal());
         totalText.setText(basketTotalString);
     }
+
+
+
+
 }

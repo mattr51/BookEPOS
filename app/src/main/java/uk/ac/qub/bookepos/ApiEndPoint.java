@@ -19,15 +19,14 @@ import java.util.Iterator;
 
 /**
  * Created by Matt Ralphson on 09/04/16.
+ * Facilitates creation or URL queries and translation of JSON responses into objects
  */
 abstract class ApiEndPoint extends AsyncTask<HashMap<String, String>, String, String> {
 
     @Override
     protected String doInBackground(HashMap<String, String>... params) {
-
         String data = "";
         int tmp;
-
         HashMap<String, String> urlParameters = params[0];
 
         try {
@@ -49,7 +48,6 @@ abstract class ApiEndPoint extends AsyncTask<HashMap<String, String>, String, St
 
             is.close();
             httpURLConnection.disconnect();
-           // data = "111112222211{'user_data':[]}";
 
             return data;
         } catch (MalformedURLException e) {
