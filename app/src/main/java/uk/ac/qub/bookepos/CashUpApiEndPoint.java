@@ -34,7 +34,7 @@ public class CashUpApiEndPoint extends ApiEndPoint {
             JSONArray cashup = result.getJSONArray("cashup");
             JSONObject todaysTakings = cashup.getJSONObject(0);
             titles = todaysTakings.getString("titles");
-            items = todaysTakings.getInt("admin");
+            items = todaysTakings.getInt("items");
             income = todaysTakings.getDouble("income");
             Toast.makeText(context, "Today's income: £"+income+ "from "+items+" items sold", Toast.LENGTH_LONG).show();
 
